@@ -14,6 +14,7 @@
       </div>
     </ul>
     <TodoInput />
+    {{ paramId }}
   </div>
 </template>
 <script>
@@ -24,6 +25,11 @@ export default {
   components: {
     TodoInput,
     TodoItem,
+  },
+  computed: {
+    paramId() {
+      return this.$route.params.id;
+    },
   },
   data() {
     return {

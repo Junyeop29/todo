@@ -1,25 +1,59 @@
 <template>
   <div class="categoryBox">
-    <div class="top">
+    <div class="fix">
       <Search />
-      <FixCategoryList />
+      <CategroyItem v-for="item in items" :key="item.id" :item="item" />
     </div>
-    <div class="bottom">
-      <CreatedCategoryList />
+    <div class="create">
+      <CategroyItem v-for="item in items2" :key="item.id" :item="item" />
     </div>
   </div>
 </template>
 
 <script>
-import Search from './Search';
-import FixCategoryList from './FixCategoryList';
-import CreatedCategoryList from './CreatedCategoryList';
+import Search from './Search.vue';
+import CategroyItem from './CategoryItem.vue';
+import { faSun, faStar } from '@fortawesome/free-regular-svg-icons';
 
 export default {
   components: {
     Search,
-    FixCategoryList,
-    CreatedCategoryList,
+    CategroyItem,
+  },
+  data() {
+    return {
+      items: [
+        {
+          id: 'today',
+          content: '오늘 할 일',
+          isFix: true,
+          icon: faSun,
+        },
+        {
+          id: 'importance',
+          content: '중요',
+          isFix: true,
+          icon: faStar,
+        },
+      ],
+      items2: [
+        {
+          id: 'asdfwef',
+          content: '프로젝트 개발',
+          isFix: false,
+        },
+        {
+          id: 'we23rr2',
+          content: '운동',
+          isFix: false,
+        },
+        {
+          id: 'gfmfk',
+          content: '독서',
+          isFix: false,
+        },
+      ],
+    };
   },
 };
 </script>
@@ -35,7 +69,7 @@ export default {
   align-items: center;
   position: relative;
 
-  .top {
+  .fix {
     width: 100%;
     height: 300px;
     display: flex;
@@ -45,7 +79,7 @@ export default {
     border-bottom: 1px solid;
   }
 
-  .bottom {
+  .create {
     width: 100%;
     display: flex;
     flex-direction: column;

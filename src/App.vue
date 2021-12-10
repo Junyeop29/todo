@@ -1,18 +1,16 @@
 <template>
   <div id="wrapper">
     <CategoryList />
-    <TodoList />
+    <router-view />
   </div>
 </template>
 
 <script>
 import CategoryList from './components/category/CategoryList';
-import TodoList from './components/todo/TodoList';
 
 export default {
   components: {
     CategoryList,
-    TodoList,
   },
 };
 </script>
