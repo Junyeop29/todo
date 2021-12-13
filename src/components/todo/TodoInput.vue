@@ -1,8 +1,8 @@
 <template>
-  <div class="inputBox">
+  <footer class="inputBox">
     <font-awesome-icon :icon="faPlus" class="icon" />
     <input type="text" placeholder="작업 추가" />
-  </div>
+  </footer>
 </template>
 
 <script>

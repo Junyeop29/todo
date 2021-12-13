@@ -1,9 +1,9 @@
 <template>
-  <div class="todoListBox">
-    <div class="header">
+  <section class="todoListBox">
+    <header class="header">
       <h1 class="title">오늘 할 일</h1>
       <div class="date">12월 9일 목요일</div>
-    </div>
+    </header>
     <ul class="content">
       <!-- done:false인 데이터만 -->
       <TodoItem v-for="item in items" :key="item.id" :item="item" />
@@ -15,7 +15,7 @@
     </ul>
     <TodoInput />
     {{ paramId }}
-  </div>
+  </section>
 </template>
 <script>
 import TodoInput from './TodoInput';

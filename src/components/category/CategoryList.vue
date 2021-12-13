@@ -1,5 +1,5 @@
 <template>
-  <div class="categoryBox">
+  <nav class="categoryBox">
     <div class="fix">
       <Search />
       <CategoryItem v-for="item in CATEGORY_FIX_LIST" :key="item.id" :item="item" />
@@ -7,10 +7,10 @@
     <div class="create">
       <CategoryItem v-for="item in CATEGORY_LIST" :key="item.id" :item="item" />
     </div>
-    <div class="footer">
+    <footer class="add">
       <CategoryAdd />
-    </div>
-  </div>
+    </footer>
+  </nav>
 </template>
 
 <script>
@@ -80,7 +80,7 @@ export default {
     flex-direction: column;
   }
 
-  .footer {
+  .add {
     width: 100%;
   }
 }
