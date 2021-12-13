@@ -1,5 +1,5 @@
 <template>
-  <div class="addBox">
+  <div class="inputBox">
     <font-awesome-icon :icon="faPlus" class="icon" />
     <input type="text" placeholder="작업 추가" />
   </div>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.addBox {
+.inputBox {
   width: 80%;
   border: 1px solid white;
   margin-top: auto;

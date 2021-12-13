@@ -2,58 +2,53 @@
   <div class="categoryBox">
     <div class="fix">
       <Search />
-      <CategroyItem v-for="item in items" :key="item.id" :item="item" />
+      <CategoryItem v-for="item in CATEGORY_FIX_LIST" :key="item.id" :item="item" />
     </div>
     <div class="create">
-      <CategroyItem v-for="item in items2" :key="item.id" :item="item" />
+      <CategoryItem v-for="item in CATEGORY_LIST" :key="item.id" :item="item" />
+    </div>
+    <div class="footer">
+      <CategoryAdd />
     </div>
   </div>
 </template>
 
 <script>
 import Search from './Search.vue';
-import CategroyItem from './CategoryItem.vue';
-import { faSun, faStar } from '@fortawesome/free-regular-svg-icons';
+import CategoryItem from './CategoryItem.vue';
+import CategoryAdd from './CategoryAdd.vue';
+import { mapGetters, mapActions } from 'vuex';
+import {
+  CATEGORY_FIX_LIST,
+  CATEGORY_LIST,
+  // CATEGORY_ITEM_CREATE,
+  CATEGORY_LIST_READ,
+  // CATEGORY_ITEM_UPDATE,
+  // CATEGORY_ITEM_DELETE,
+} from '@/store/modules/category/constants.js';
 
 export default {
   components: {
     Search,
-    CategroyItem,
+    CategoryItem,
+    CategoryAdd,
   },
-  data() {
-    return {
-      items: [
-        {
-          id: 'today',
-          content: '오늘 할 일',
-          isFix: true,
-          icon: faSun,
-        },
-        {
-          id: 'importance',
-          content: '중요',
-          isFix: true,
-          icon: faStar,
-        },
-      ],
-      items2: [
-        {
-          id: 'asdfwef',
-          content: '프로젝트 개발',
-          isFix: false,
-        },
-        {
-          id: 'we23rr2',
-          content: '운동',
-          isFix: false,
-        },
-        {
-          id: 'gfmfk',
-          content: '독서',
-          isFix: false,
-        },
-      ],
-    };
+  computed: {
+    ...mapGetters('category', {
+      CATEGORY_FIX_LIST,
+      CATEGORY_LIST,
+    }),
+  },
+  methods: {
+    ...mapActions('category', {
+      // createCategoryItem: CATEGORY_ITEM_CREATE,
+      readCategoryList: CATEGORY_LIST_READ,
+      // updateCategoryItem: CATEGORY_ITEM_UPDATE,
+      // deleteCategoryItem: CATEGORY_ITEM_DELETE,
+    }),
+  },
+  created() {
+    this.readCategoryList();
   },
 };
 </script>
@@ -83,6 +78,10 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
+  }
+
+  .footer {
+    width: 100%;
   }
 }
 </style>

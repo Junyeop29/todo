@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const router = new VueRouter({
+export default new VueRouter({
   mode: 'history',
   routes: [
     {
@@ -16,5 +16,3 @@ const router = new VueRouter({
     },
   ],
 });
-
-export default router;

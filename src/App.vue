@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import CategoryList from './components/category/CategoryList';
+import CategoryList from './components/category/CategoryList.vue';
 
 export default {
   components: {
