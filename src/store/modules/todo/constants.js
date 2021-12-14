@@ -1,0 +1,10 @@
+export const TODO_LIST = 'TODO_LIST';
+export const TODO_SUCCESS = 'TODO_SUCCESS';
+export const TODO_FAILURE = 'TODO_FAILURE';
+
+export const TODO_ITEM_CREATE = 'TODO_ITEM_CREATE';
+export const TODO_LIST_READ = 'TODO_LIST_READ';
+export const TODO_ITEM_UPDATE = 'TODO_ITEM_UPDATE';
+export const TODO_ITEM_DELETE = 'TODO_ITEM_DELETE';
+export const TODO_ITEM_CHILD = 'TODO_ITEM_CHILD';
+export const TODO_ITEM_TOGGLE = 'TODO_ITEM_TOGGLE';

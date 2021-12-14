@@ -7,8 +7,8 @@
     <div class="create">
       <CategoryItem v-for="item in CATEGORY_LIST" :key="item.id" :item="item" />
     </div>
-    <footer class="add">
-      <CategoryAdd />
+    <footer class="input">
+      <CategoryInput />
     </footer>
   </nav>
 </template>
@@ -16,7 +16,7 @@
 <script>
 import Search from './Search.vue';
 import CategoryItem from './CategoryItem.vue';
-import CategoryAdd from './CategoryAdd.vue';
+import CategoryInput from './CategoryInput.vue';
 import { mapGetters, mapActions } from 'vuex';
 import {
   CATEGORY_FIX_LIST,
@@ -31,7 +31,7 @@ export default {
   components: {
     Search,
     CategoryItem,
-    CategoryAdd,
+    CategoryInput,
   },
   computed: {
     ...mapGetters('category', {
@@ -80,8 +80,12 @@ export default {
     flex-direction: column;
   }
 
-  .add {
+  .input {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

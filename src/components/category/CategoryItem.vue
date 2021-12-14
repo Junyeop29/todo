@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     onClick() {
-      console.log(this.item.id);
       this.$router.push(this.item.id);
     },
   },

@@ -1,16 +1,15 @@
 <template>
   <div id="wrapper">
-    <CategoryList />
-    <router-view />
+    <TodoPage />
   </div>
 </template>
 
 <script>
-import CategoryList from './components/category/CategoryList.vue';
+import TodoPage from '@/pages/TodoPage.vue';
 
 export default {
   components: {
-    CategoryList,
+    TodoPage,
   },
 };
 </script>

@@ -1,13 +1,17 @@
 <template>
   <footer class="inputBox">
-    <font-awesome-icon :icon="faPlus" class="icon" />
-    <input type="text" placeholder="작업 추가" />
+    <span class="icon">
+      <font-awesome-icon :icon="faPlus" @click="onAdd" />
+    </span>
+    <input type="text" placeholder="작업 추가" :value="inputValue" @input="onChange" @keypress.enter="onAdd" />
   </footer>
 </template>
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { mapActions } from 'vuex';
+import { TODO_LIST_READ, TODO_ITEM_CREATE } from '@/store/modules/todo/constants.js';
 
 export default {
   components: {
@@ -16,7 +20,27 @@ export default {
   data() {
     return {
       faPlus,
+      inputValue: '',
     };
+  },
+  methods: {
+    ...mapActions('todo', {
+      readTodoList: TODO_LIST_READ,
+      createTodoItem: TODO_ITEM_CREATE,
+    }),
+    onChange(e) {
+      this.inputValue = e.target.value;
+    },
+    async onAdd() {
+      await this.createTodoItem({
+        content: this.inputValue === '' ? '할 일' : this.inputValue,
+        categoryId: 'ejfojwefio3jo2',
+      });
+      await this.readTodoList({
+        categoryId: 'ejfojwefio3jo2',
+      });
+      this.inputValue = '';
+    },
   },
 };
 </script>
@@ -31,8 +55,9 @@ export default {
 
   .icon {
     position: absolute;
-    top: 7px;
-    left: 8px;
+    top: 50%;
+    transform: translate(0%, -50%);
+    padding: 6px 10px;
     font-size: 25px;
     color: rgba(255, 255, 255, 0.694);
     cursor: pointer;
@@ -42,7 +67,7 @@ export default {
     width: 100%;
     font-size: 1.4rem;
     padding: 7px;
-    padding-left: 38px;
+    padding-left: 40px;
     background-color: rgb(101, 99, 99);
     color: white;
 

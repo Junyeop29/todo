@@ -1,110 +1,52 @@
 <template>
-  <section class="todoListBox">
-    <header class="header">
-      <h1 class="title">오늘 할 일</h1>
-      <div class="date">12월 9일 목요일</div>
-    </header>
-    <ul class="content">
-      <!-- done:false인 데이터만 -->
-      <TodoItem v-for="item in items" :key="item.id" :item="item" />
+  <ul class="listBox">
+    <!-- done:false인 데이터만 -->
+    <TodoItem v-for="item in todoList" :key="item.id" :item="item" />
+    <div class="doneList">
+      <span class="subTitle">완료됨</span>
       <!-- done:true인 데이터만 -->
-      <div class="doneList">
-        <span class="subTitle">완료됨</span>
-        <TodoItem v-for="item in items2" :key="item.id" :item="item" />
-      </div>
-    </ul>
-    <TodoInput />
-    {{ paramId }}
-  </section>
+      <TodoItem v-for="item in todoListDone" :key="item.id" :item="item" />
+    </div>
+  </ul>
 </template>
+
 <script>
-import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
+import { mapGetters, mapActions } from 'vuex';
+import { TODO_LIST, TODO_SUCCESS, TODO_FAILURE, TODO_LIST_READ } from '@/store/modules/todo/constants.js';
 
 export default {
   components: {
-    TodoInput,
     TodoItem,
   },
   computed: {
-    paramId() {
-      return this.$route.params.id;
+    ...mapGetters('todo', {
+      TODO_LIST,
+      TODO_SUCCESS,
+      TODO_FAILURE,
+    }),
+    todoList() {
+      if (this.TODO_LIST === undefined || this.TODO_LIST === null) return null;
+      return this.TODO_LIST.filter(ele => ele.done === false);
+    },
+    todoListDone() {
+      if (this.TODO_LIST === undefined || this.TODO_LIST === null) return null;
+      return this.TODO_LIST.filter(ele => ele.done === true);
     },
   },
-  data() {
-    return {
-      items: [
-        {
-          id: 0,
-          content: 'computed',
-          done: false,
-          importance: true,
-          isToday: false,
-        },
-        {
-          id: 1,
-          content: 'watch',
-          done: false,
-          importance: true,
-          isToday: false,
-        },
-        {
-          id: 2,
-          content: '조건부 렌더링',
-          done: false,
-          importance: false,
-          isToday: false,
-        },
-      ],
-      items2: [
-        {
-          id: 23,
-          content: 'action',
-          done: true,
-          importance: false,
-          isToday: false,
-        },
-        {
-          id: 1424,
-          content: 'mutation',
-          done: true,
-          importance: true,
-          isToday: false,
-        },
-        {
-          id: 22535,
-          content: 'getter',
-          done: true,
-          importance: false,
-          isToday: false,
-        },
-      ],
-    };
+  methods: {
+    ...mapActions('todo', {
+      readTodoList: TODO_LIST_READ,
+    }),
+  },
+  created() {
+    this.readTodoList({ categoryId: 'ejfojwefio3jo2' });
   },
 };
 </script>
+
 <style lang="scss" scoped>
-.todoListBox {
-  width: 80%;
-  height: 100%;
-  background-color: #47838b8c;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.header {
-  width: 80%;
-  height: 100px;
-  border: 1px solid white;
-  margin: 40px 0;
-  color: white;
-  .date {
-    padding-left: 10px;
-  }
-}
-
-.content {
+.listBox {
   width: 80%;
   height: calc(100% - 340px);
   margin-bottom: 30px;
