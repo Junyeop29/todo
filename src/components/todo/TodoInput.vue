@@ -25,18 +25,18 @@ export default {
   },
   methods: {
     ...mapActions('todo', {
-      readTodoList: TODO_LIST_READ,
-      createTodoItem: TODO_ITEM_CREATE,
+      readList: TODO_LIST_READ,
+      createItem: TODO_ITEM_CREATE,
     }),
     onChange(e) {
       this.inputValue = e.target.value;
     },
     async onAdd() {
-      await this.createTodoItem({
+      await this.createItem({
         content: this.inputValue === '' ? '할 일' : this.inputValue,
         categoryId: 'ejfojwefio3jo2',
       });
-      await this.readTodoList({
+      await this.readList({
         categoryId: 'ejfojwefio3jo2',
       });
       this.inputValue = '';

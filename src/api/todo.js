@@ -48,7 +48,7 @@ const job = sec => {
   });
 };
 
-export const createTodoItem = async ({ content, categoryId }) => {
+export const createItem = async ({ content, categoryId }) => {
   const result = await job(100);
   todoList.push({
     id,
@@ -62,13 +62,13 @@ export const createTodoItem = async ({ content, categoryId }) => {
   return result;
 };
 
-export const readTodoList = async ({ categoryId }) => {
+export const readList = async ({ categoryId }) => {
   await job(100);
   const result = todoList.filter(ele => ele.categoryId === categoryId);
   return result;
 };
 
-export const updateTodoItem = async ({ id, content }) => {
+export const updateItem = async ({ id, content }) => {
   const result = await job(100);
   todoList.forEach(ele => {
     if (ele.id === id) {
@@ -78,7 +78,7 @@ export const updateTodoItem = async ({ id, content }) => {
   return result;
 };
 
-export const deleteTodoItem = async ({ id }) => {
+export const deleteItem = async ({ id }) => {
   const result = await job(100);
   todoList.splice(
     todoList.findIndex(ele => ele.id === id),
@@ -87,7 +87,7 @@ export const deleteTodoItem = async ({ id }) => {
   return result;
 };
 
-export const createTodoChild = async ({ id, content }) => {
+export const createItemChild = async ({ id, content }) => {
   const result = await job(100);
   todoList.forEach(ele => {
     if (ele.id === id) {
@@ -103,7 +103,7 @@ export const createTodoChild = async ({ id, content }) => {
   return result;
 };
 
-export const toggleTodoItem = async ({ id }) => {
+export const toggleItem = async ({ id }) => {
   const result = await job(100);
   todoList.forEach(ele => {
     if (ele.id === id) {

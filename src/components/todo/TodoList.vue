@@ -36,11 +36,11 @@ export default {
   },
   methods: {
     ...mapActions('todo', {
-      readTodoList: TODO_LIST_READ,
+      readList: TODO_LIST_READ,
     }),
   },
   created() {
-    this.readTodoList({ categoryId: 'ejfojwefio3jo2' });
+    this.readList({ categoryId: 'ejfojwefio3jo2' });
   },
 };
 </script>

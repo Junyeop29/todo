@@ -54,7 +54,7 @@ const mutations = {
 const actions = {
   async [TODO_ITEM_CREATE]({ commit }, { content, categoryId }) {
     try {
-      const result = await todoAPI.createTodoItem({ content, categoryId });
+      const result = await todoAPI.createItem({ content, categoryId });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, result);
     } catch (e) {
@@ -64,7 +64,7 @@ const actions = {
   },
   async [TODO_LIST_READ]({ commit }, { categoryId }) {
     try {
-      const result = await todoAPI.readTodoList({ categoryId });
+      const result = await todoAPI.readList({ categoryId });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, 'success');
       commit(TODO_LIST, result);
@@ -75,7 +75,7 @@ const actions = {
   },
   async [TODO_ITEM_UPDATE]({ commit }, { id, content }) {
     try {
-      const result = await todoAPI.updateTodoItem({ id, content });
+      const result = await todoAPI.updateItem({ id, content });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, result);
     } catch (e) {
@@ -85,7 +85,7 @@ const actions = {
   },
   async [TODO_ITEM_DELETE]({ commit }, { content, categoryId }) {
     try {
-      const result = await todoAPI.deleteTodoItem({ content, categoryId });
+      const result = await todoAPI.deleteItem({ content, categoryId });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, result);
     } catch (e) {
@@ -95,7 +95,7 @@ const actions = {
   },
   async [TODO_ITEM_CHILD]({ commit }, { id, content }) {
     try {
-      const result = await todoAPI.createTodoChild({ id, content });
+      const result = await todoAPI.createItemChild({ id, content });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, result);
     } catch (e) {
@@ -105,7 +105,7 @@ const actions = {
   },
   async [TODO_ITEM_TOGGLE]({ commit }, { id }) {
     try {
-      const result = await todoAPI.toggleTodoItem({ id });
+      const result = await todoAPI.toggleItem({ id });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, result);
     } catch (e) {
