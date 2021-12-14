@@ -1,6 +1,6 @@
 <template>
   <li class="itemBox">
-    <span class="done">
+    <span class="done" @click="onToggle">
       <font-awesome-icon v-if="item.done" :icon="faCheckCircle" />
       <font-awesome-icon v-else :icon="faCircle" />
     </span>
@@ -18,6 +18,8 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faCheckCircle, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { mapActions } from 'vuex';
+import { TODO_LIST_READ, TODO_ITEM_TOGGLE } from '@/store/modules/todo/constants.js';
 
 export default {
   components: {
@@ -43,9 +45,27 @@ export default {
       farStar,
     };
   },
+  methods: {
+    ...mapActions('todo', {
+      readList: TODO_LIST_READ,
+      toggleItem: TODO_ITEM_TOGGLE,
+    }),
+    async onToggle() {
+      await this.toggleItem({
+        id: this.item.id,
+      });
+      await this.readList({
+        categoryId: 'ejfojwefio3jo2',
+      });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
+svg {
+  pointer-events: none;
+}
+
 .itemBox {
   background-color: white;
   padding: 10px 0;
@@ -55,7 +75,7 @@ export default {
   display: flex;
   align-items: center;
 
-  > span {
+  & > span {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,6 +87,7 @@ export default {
     text-align: center;
     font-size: 1.4rem;
     color: gray;
+    cursor: pointer;
   }
   .content {
     width: 86%;
