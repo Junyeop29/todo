@@ -5,7 +5,7 @@
       <font-awesome-icon v-else :icon="faCircle" />
     </span>
     <span class="content" :class="{ through: item.done }">
-      <input type="text" :value="inputValue" @input="onChange" @keypress.enter="onEdit" />
+      <BaseInput class="input" v-model="inputValue" :placeholder="'작업 추가'" :onEnter="onEdit" />
     </span>
     <span class="etc">
       <span @click="onRemove">
@@ -24,10 +24,12 @@ import { faCheckCircle, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { mapActions } from 'vuex';
 import { TODO_LIST_READ, TODO_ITEM_TOGGLE, TODO_ITEM_UPDATE, TODO_ITEM_DELETE } from '@/store/modules/todo/constants.js';
+import BaseInput from '@/components/common/BaseInput.vue';
 
 export default {
   components: {
     FontAwesomeIcon,
+    BaseInput,
   },
   props: {
     item: {
@@ -57,10 +59,8 @@ export default {
       updateItem: TODO_ITEM_UPDATE,
       deleteItem: TODO_ITEM_DELETE,
     }),
-    onChange(e) {
-      this.inputValue = e.target.value;
-    },
     async onEdit(e) {
+      e.target.blur();
       await this.updateItem({
         id: this.item.id,
         content: this.inputValue,
@@ -68,7 +68,6 @@ export default {
       await this.readList({
         categoryId: 'ejfojwefio3jo2',
       });
-      e.target.blur();
     },
     async onRemove() {
       await this.deleteItem({
@@ -123,7 +122,7 @@ svg {
     width: 83%;
     justify-content: flex-start;
 
-    input {
+    .input {
       width: 100%;
       border: none;
       font-size: 1.2rem;

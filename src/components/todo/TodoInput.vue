@@ -3,7 +3,7 @@
     <span class="icon">
       <font-awesome-icon :icon="faPlus" @click="onAdd" />
     </span>
-    <input type="text" placeholder="작업 추가" :value="inputValue" @input="onChange" @keypress.enter="onAdd" />
+    <BaseInput class="input" v-model="inputValue" :placeholder="'작업 추가'" :onEnter="onAdd" />
   </footer>
 </template>
 
@@ -12,10 +12,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { mapActions } from 'vuex';
 import { TODO_LIST_READ, TODO_ITEM_CREATE } from '@/store/modules/todo/constants.js';
+import BaseInput from '@/components/common/BaseInput.vue';
 
 export default {
   components: {
     FontAwesomeIcon,
+    BaseInput,
   },
   data() {
     return {
@@ -28,9 +30,6 @@ export default {
       readList: TODO_LIST_READ,
       createItem: TODO_ITEM_CREATE,
     }),
-    onChange(e) {
-      this.inputValue = e.target.value;
-    },
     async onAdd() {
       await this.createItem({
         content: this.inputValue === '' ? '할 일' : this.inputValue,
@@ -63,7 +62,7 @@ export default {
     cursor: pointer;
   }
 
-  input {
+  .input {
     width: 100%;
     font-size: 1.4rem;
     padding: 7px;

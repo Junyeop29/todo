@@ -1,8 +1,8 @@
 import { collection, doc, addDoc, getDocs, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
-import { fireStore } from './firebase';
+import { firestore } from './firebase';
 
 export const createItem = async ({ content, categoryId }) => {
-  const result = await addDoc(collection(fireStore, 'todo'), {
+  const result = await addDoc(collection(firestore, 'todo'), {
     content,
     done: false,
     categoryId,
@@ -12,7 +12,7 @@ export const createItem = async ({ content, categoryId }) => {
 };
 
 export const readList = async ({ categoryId }) => {
-  const q = query(collection(fireStore, 'todo'), where('categoryId', '==', categoryId));
+  const q = query(collection(firestore, 'todo'), where('categoryId', '==', categoryId));
 
   const querySnapshot = await getDocs(q);
   const result = querySnapshot.docs.map(doc => ({
@@ -28,14 +28,14 @@ export const readList = async ({ categoryId }) => {
 };
 
 export const updateItem = async ({ id, content }) => {
-  const result = await updateDoc(doc(fireStore, 'todo', id), {
+  const result = await updateDoc(doc(firestore, 'todo', id), {
     content,
   });
   return result;
 };
 
 export const deleteItem = async ({ id }) => {
-  const result = await deleteDoc(doc(fireStore, 'todo', id));
+  const result = await deleteDoc(doc(firestore, 'todo', id));
   return result;
 };
 
@@ -44,7 +44,7 @@ export const createItemChild = async ({ id, content }) => {
 };
 
 export const toggleItem = async ({ id, done }) => {
-  const result = await updateDoc(doc(fireStore, 'todo', id), {
+  const result = await updateDoc(doc(firestore, 'todo', id), {
     done: !done,
   });
   return result;

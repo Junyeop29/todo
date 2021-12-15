@@ -8,11 +8,19 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: '/tasks/today',
+      redirect: '/login',
+    },
+    {
+      path: '/login',
+      component: () => import('@/pages/LoginPage.vue'),
+    },
+    {
+      path: '/register',
+      component: () => import('@/pages/RegisterPage.vue'),
     },
     {
       path: '/tasks/:id',
-      component: () => import('@/components/todo/TodoList.vue'),
+      component: () => import('@/pages/TodoPage.vue'),
     },
   ],
 });
