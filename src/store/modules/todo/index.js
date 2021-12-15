@@ -83,9 +83,9 @@ const actions = {
       commit(TODO_FAILURE, e);
     }
   },
-  async [TODO_ITEM_DELETE]({ commit }, { content, categoryId }) {
+  async [TODO_ITEM_DELETE]({ commit }, { id }) {
     try {
-      const result = await todoAPI.deleteItem({ content, categoryId });
+      const result = await todoAPI.deleteItem({ id });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, result);
     } catch (e) {

@@ -5,21 +5,25 @@
       <font-awesome-icon v-else :icon="faCircle" />
     </span>
     <span class="content" :class="{ through: item.done }">
-      {{ item.content }}
+      <input type="text" :value="inputValue" @input="onChange" @keypress.enter="onEdit" />
     </span>
-    <span class="importance">
-      <font-awesome-icon v-if="item.importance" :icon="faStar" />
-      <font-awesome-icon v-else :icon="farStar" />
+    <span class="etc">
+      <span @click="onRemove">
+        <font-awesome-icon :icon="faTrashAlt" />
+      </span>
+      <span>
+        <font-awesome-icon :icon="faEllipsisV" />
+      </span>
     </span>
   </li>
 </template>
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheckCircle, faStar } from '@fortawesome/free-solid-svg-icons';
-import { faCircle, faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { faCheckCircle, faEllipsisV, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { mapActions } from 'vuex';
-import { TODO_LIST_READ, TODO_ITEM_TOGGLE } from '@/store/modules/todo/constants.js';
+import { TODO_LIST_READ, TODO_ITEM_TOGGLE, TODO_ITEM_UPDATE, TODO_ITEM_DELETE } from '@/store/modules/todo/constants.js';
 
 export default {
   components: {
@@ -41,15 +45,39 @@ export default {
     return {
       faCircle,
       faCheckCircle,
-      faStar,
-      farStar,
+      faEllipsisV,
+      faTrashAlt,
+      inputValue: this.item.content,
     };
   },
   methods: {
     ...mapActions('todo', {
       readList: TODO_LIST_READ,
       toggleItem: TODO_ITEM_TOGGLE,
+      updateItem: TODO_ITEM_UPDATE,
+      deleteItem: TODO_ITEM_DELETE,
     }),
+    onChange(e) {
+      this.inputValue = e.target.value;
+    },
+    async onEdit(e) {
+      await this.updateItem({
+        id: this.item.id,
+        content: this.inputValue,
+      });
+      await this.readList({
+        categoryId: 'ejfojwefio3jo2',
+      });
+      e.target.blur();
+    },
+    async onRemove() {
+      await this.deleteItem({
+        id: this.item.id,
+      });
+      await this.readList({
+        categoryId: 'ejfojwefio3jo2',
+      });
+    },
     async onToggle() {
       await this.toggleItem({
         id: this.item.id,
@@ -89,18 +117,35 @@ svg {
     color: gray;
     cursor: pointer;
   }
+
   .content {
-    width: 86%;
+    width: 83%;
     justify-content: flex-start;
+
+    input {
+      width: 100%;
+      border: none;
+      font-size: 1.2rem;
+    }
   }
   .content.through {
     text-decoration: line-through;
     color: gray;
   }
-  .importance {
-    width: 7%;
-    font-size: 1.2rem;
-    color: gray;
+
+  .etc {
+    width: 10%;
+
+    & > span {
+      padding: 5px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: gray;
+
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
   }
 }
 </style>
