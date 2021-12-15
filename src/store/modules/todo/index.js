@@ -103,9 +103,9 @@ const actions = {
       commit(TODO_FAILURE, e);
     }
   },
-  async [TODO_ITEM_TOGGLE]({ commit }, { id }) {
+  async [TODO_ITEM_TOGGLE]({ commit }, { id, done }) {
     try {
-      const result = await todoAPI.toggleItem({ id });
+      const result = await todoAPI.toggleItem({ id, done });
       commit(TODO_FAILURE, null);
       commit(TODO_SUCCESS, result);
     } catch (e) {

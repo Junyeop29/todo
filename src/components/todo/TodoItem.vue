@@ -81,6 +81,7 @@ export default {
     async onToggle() {
       await this.toggleItem({
         id: this.item.id,
+        done: this.item.done,
       });
       await this.readList({
         categoryId: 'ejfojwefio3jo2',
