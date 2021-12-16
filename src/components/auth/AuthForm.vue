@@ -6,9 +6,9 @@
       </header>
       <!-- 제출 이벤트가 페이지를 다시 로드 하지 않습니다 -->
       <!-- <form v-on:submit.prevent="onSubmit"></form> -->
-      <form @submit="onSubmit">
+      <form @submit.prevent="onSubmit">
         <div class="inputBox">
-          <BaseInput v-model="id" required />
+          <BaseInput v-model="username" required />
           <span></span>
           <label>아이디</label>
         </div>
@@ -29,6 +29,9 @@
         <router-link v-if="type === 'register'" to="/login">로그인</router-link>
         <router-link v-else to="/register">회원가입</router-link>
       </footer>
+      <button @click="onGoggleClick">구글</button>
+      {{ AUTH_SUCCESS }}
+      {{ AUTH_FAILURE }}
     </div>
   </section>
 </template>
@@ -36,16 +39,14 @@
 <script>
 import BaseInput from '@/components/common/BaseInput.vue';
 import { authMap } from '@/global.js';
-
+import { mapGetters, mapActions } from 'vuex';
+import { AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGIN, AUTH_REGISTER } from '@/store/modules/auth/constants.js';
+import { loginWithGoogle } from '@/api/auth.js';
 export default {
   props: {
     type: {
       type: String,
       default: 'login',
-    },
-    onSubmit: {
-      type: Function,
-      default: () => {},
     },
   },
   components: {
@@ -53,15 +54,38 @@ export default {
   },
   data() {
     return {
-      id: '',
+      username: '',
       password: '',
       passwordConfirm: '',
       name: authMap[this.type],
     };
   },
+  computed: {
+    ...mapGetters('auth', {
+      AUTH_SUCCESS,
+      AUTH_FAILURE,
+    }),
+  },
   methods: {
-    tmp() {
-      console.log('123');
+    ...mapActions('auth', {
+      login: AUTH_LOGIN,
+      register: AUTH_REGISTER,
+    }),
+    onSubmit() {
+      if (this.type === 'login') {
+        this.login({
+          username: this.username,
+          password: this.password,
+        });
+      } else {
+        this.register({
+          username: this.username,
+          password: this.password,
+        });
+      }
+    },
+    async onGoggleClick() {
+      loginWithGoogle();
     },
   },
 };

@@ -31,6 +31,8 @@ import * as todoAPI from '@/api/todo.js';
 
 const state = () => ({
   [TODO_LIST]: null,
+  [TODO_SUCCESS]: null,
+  [TODO_FAILURE]: null,
 });
 
 const getters = {
@@ -119,6 +121,6 @@ export default {
   namespaced: true,
   state,
   getters,
-  actions,
   mutations,
+  actions,
 };
