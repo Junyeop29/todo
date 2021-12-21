@@ -19,13 +19,12 @@ export const login = async ({ username, password }) => {
     const result = querySnapshot.docs[0].data();
 
     if (result.password === password) {
-      console.log(result);
       return result.username;
     } else {
-      return '비밀번호가 일치하지 않습니다.';
+      throw new Error('비밀번호를 잘 못 입력했습니다.');
     }
   } else {
-    throw new Error('없는 아이디');
+    throw new Error('없는 아이디입니다.');
   }
 };
 
@@ -40,11 +39,9 @@ export const register = async ({ username, password }) => {
       password,
       createDate: new Date(),
     });
-    console.log(result);
     return result;
   } else {
-    console.log('아이디 중복');
-    return '아이디 중복';
+    throw new Error('중복된 아이디입니다.');
   }
 };
 

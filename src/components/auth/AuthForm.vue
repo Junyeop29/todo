@@ -13,23 +13,27 @@
           <label>아이디</label>
         </div>
         <div class="inputBox">
-          <BaseInput type="password" v-model="password" required />
+          <input type="password" :value="password" @input="onCheck" maxlength="16" required />
           <span></span>
           <label>비밀번호</label>
         </div>
         <div v-if="type === 'register'" class="inputBox">
-          <input type="password" :value="passwordConfirm" @input="onChangeConfirm" required />
+          <input type="password" @input="onChangeConfirm" maxlength="16" required />
           <span></span>
           <label>비밀번호 확인</label>
         </div>
-        <!-- {error && <ErrorMessage>{error}</ErrorMessage>} -->
+        <div v-show="error" class="error">{{ error }}</div>
         <input type="submit" :value="name" />
       </form>
       <footer>
         <router-link v-if="type === 'register'" to="/login">로그인</router-link>
         <router-link v-else to="/register">회원가입</router-link>
       </footer>
-      <button @click="onGoggleClick">구글</button>
+      <div class="authBtn">
+        <button @click="onGoggleClick" class="google">
+          <img src="@/assets/google-logo.svg" alt="google" />
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -40,6 +44,7 @@ import { authMap } from '@/global.js';
 import { mapGetters, mapActions } from 'vuex';
 import { AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGIN, AUTH_REGISTER } from '@/store/modules/auth/constants.js';
 import { loginWithGoogle } from '@/api/auth.js';
+import { passwordCheck } from '@/lib/util.js';
 export default {
   props: {
     type: {
@@ -54,9 +59,8 @@ export default {
     return {
       username: '',
       password: '',
-      passwordConfirm: '',
       name: authMap[this.type],
-      error: '에러',
+      error: '',
     };
   },
   computed: {
@@ -86,13 +90,20 @@ export default {
     async onGoggleClick() {
       loginWithGoogle();
     },
-    onChangeConfirm() {
-      // this.error = e.target.value;
-      // if (this.password === e.target.value) {
-      //   console.log('일치');
-      // } else {
-      //   console.log('일치하지 않습니다.');
-      // }
+    onCheck(e) {
+      this.password = e.target.value;
+      if (passwordCheck(this.password)) {
+        this.error = '';
+      } else {
+        this.error = '비밀번호는 영문/숫자/특수문자를 포함하여 8~16자를 입력해야 합니다.';
+      }
+    },
+    onChangeConfirm(e) {
+      if (this.password === e.target.value) {
+        this.error = '';
+      } else {
+        this.error = '비밀번호가 동일하지 않습니다.';
+      }
     },
   },
 };
@@ -173,6 +184,11 @@ export default {
       }
     }
 
+    .error {
+      color: red;
+      margin-bottom: 10px;
+    }
+
     input[type='submit'] {
       width: 100%;
       height: 50px;
@@ -203,6 +219,24 @@ export default {
       a:hover {
         text-decoration: underline;
         color: #2691d9;
+      }
+    }
+
+    .authBtn {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+
+      button {
+        background: none;
+        border: none;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        padding: 10px;
+        cursor: pointer;
+
+        img {
+          display: block;
+        }
       }
     }
   }
