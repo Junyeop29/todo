@@ -18,7 +18,7 @@
           <label>비밀번호</label>
         </div>
         <div v-if="type === 'register'" class="inputBox">
-          <BaseInput type="password" v-model="passwordConfirm" required />
+          <input type="password" :value="passwordConfirm" @input="onChangeConfirm" required />
           <span></span>
           <label>비밀번호 확인</label>
         </div>
@@ -30,8 +30,6 @@
         <router-link v-else to="/register">회원가입</router-link>
       </footer>
       <button @click="onGoggleClick">구글</button>
-      {{ AUTH_SUCCESS }}
-      {{ AUTH_FAILURE }}
     </div>
   </section>
 </template>
@@ -58,6 +56,7 @@ export default {
       password: '',
       passwordConfirm: '',
       name: authMap[this.type],
+      error: '에러',
     };
   },
   computed: {
@@ -86,6 +85,14 @@ export default {
     },
     async onGoggleClick() {
       loginWithGoogle();
+    },
+    onChangeConfirm() {
+      // this.error = e.target.value;
+      // if (this.password === e.target.value) {
+      //   console.log('일치');
+      // } else {
+      //   console.log('일치하지 않습니다.');
+      // }
     },
   },
 };

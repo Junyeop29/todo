@@ -27,6 +27,7 @@ const actions = {
       commit(AUTH_FAILURE, null);
       commit(AUTH_SUCCESS, result);
     } catch (e) {
+      console.log(e);
       commit(AUTH_SUCCESS, null);
       commit(AUTH_FAILURE, e);
     }

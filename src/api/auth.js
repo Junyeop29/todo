@@ -1,10 +1,10 @@
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import {
-  createUserWithEmailAndPassword,
-  getRedirectResult,
+  // createUserWithEmailAndPassword,
+  // getRedirectResult,
   GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithRedirect,
+  // signInWithEmailAndPassword,
+  // signInWithRedirect,
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
@@ -19,12 +19,13 @@ export const login = async ({ username, password }) => {
     const result = querySnapshot.docs[0].data();
 
     if (result.password === password) {
+      console.log(result);
       return result.username;
     } else {
       return '비밀번호가 일치하지 않습니다.';
     }
   } else {
-    return '없는 아이디';
+    throw new Error('없는 아이디');
   }
 };
 
@@ -39,30 +40,32 @@ export const register = async ({ username, password }) => {
       password,
       createDate: new Date(),
     });
+    console.log(result);
     return result;
   } else {
+    console.log('아이디 중복');
     return '아이디 중복';
   }
 };
 
-//Email로 가입하는 함수
-//동작이 이루어지면 앞서 작성한 로그인 상태 감지 함수로 인해 user정보가 변수에 저장되고 setState가 발생
-export async function registerWithEamil(email, password) {
-  try {
-    await createUserWithEmailAndPassword(authService, email, password).then(e => {});
-  } catch (e) {
-    return e.message.replace('Firebase: Error ', '');
-  }
-}
+// //Email 가입
+// //동작이 이루어지면 앞서 작성한 로그인 상태 감지 함수로 인해 user정보가 변수에 저장되고 setState가 발생
+// export async function registerWithEamil(email, password) {
+//   try {
+//     await createUserWithEmailAndPassword(authService, email, password).then(e => {});
+//   } catch (e) {
+//     return e.message.replace('Firebase: Error ', '');
+//   }
+// }
 
-//Email로 로그인하는 함수
-export async function loginWithEamil(email, password) {
-  try {
-    await signInWithEmailAndPassword(authService, email, password);
-  } catch (e) {
-    return e.message.replace('Firebase: Error ', '');
-  }
-}
+// //Email 로그인
+// export async function loginWithEamil(email, password) {
+//   try {
+//     await signInWithEmailAndPassword(authService, email, password);
+//   } catch (e) {
+//     return e.message.replace('Firebase: Error ', '');
+//   }
+// }
 
 //Google
 export async function loginWithGoogle() {
