@@ -28,6 +28,7 @@ nav {
   width: 20%;
   height: 100%;
   background-color: #f4f4f4;
+  border-right: 1px solid;
 
   display: flex;
   flex-direction: column;

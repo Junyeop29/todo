@@ -1,16 +1,19 @@
 <template>
   <div id="wrapper">
     <SideNav />
+    <Test />
     <router-view />
   </div>
 </template>
 
 <script>
 import SideNav from '@/components/common/SideNav.vue';
+import Test from '@/components/common/Test.vue';
 
 export default {
   components: {
     SideNav,
+    Test,
   },
 };
 </script>
@@ -33,7 +36,7 @@ export default {
 @font-face {
   font-family: 'BMJUA';
   src: url('assets/fonts/BMJUA.otf') format('opentype');
-  unicode-range: U+AC00-D7A3;
+  unicode-range: U+AC00-D7A3, U+0030-0039;
 }
 
 * {

@@ -19,7 +19,11 @@ export default new VueRouter({
       component: () => import('@/pages/RegisterPage.vue'),
     },
     {
-      path: '/tasks/:id',
+      path: '/today',
+      component: () => import('@/pages/TodayPage.vue'),
+    },
+    {
+      path: '/todo',
       component: () => import('@/pages/TodoPage.vue'),
     },
   ],

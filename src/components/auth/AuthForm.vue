@@ -44,7 +44,8 @@ import { authMap } from '@/global.js';
 import { mapGetters, mapActions } from 'vuex';
 import { AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGIN, AUTH_REGISTER } from '@/store/modules/auth/constants.js';
 import { loginWithGoogle } from '@/api/auth.js';
-import { passwordCheck } from '@/lib/util.js';
+import { checkPassword } from '@/lib/util.js';
+
 export default {
   props: {
     type: {
@@ -74,17 +75,22 @@ export default {
       login: AUTH_LOGIN,
       register: AUTH_REGISTER,
     }),
-    onSubmit() {
+    async onSubmit() {
       if (this.type === 'login') {
-        this.login({
+        await this.login({
           username: this.username,
           password: this.password,
         });
+        if (this.AUTH_SUCCESS) {
+          this.$router.push('/today');
+        }
       } else {
-        this.register({
+        await this.register({
           username: this.username,
           password: this.password,
         });
+        console.log(this.AUTH_SUCCESS);
+        console.log(this.AUTH_FAILURE);
       }
     },
     async onGoggleClick() {
@@ -92,7 +98,11 @@ export default {
     },
     onCheck(e) {
       this.password = e.target.value;
-      if (passwordCheck(this.password)) {
+      if (this.type === 'login') {
+        return;
+      }
+
+      if (checkPassword(this.password)) {
         this.error = '';
       } else {
         this.error = '비밀번호는 영문/숫자/특수문자를 포함하여 8~16자를 입력해야 합니다.';
@@ -111,7 +121,7 @@ export default {
 
 <style lang="scss" scoped>
 .wrapper {
-  width: 100%;
+  width: 80%;
   height: 100%;
   background: aliceblue;
 
