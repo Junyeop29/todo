@@ -8,19 +8,17 @@
       <li>Calendar</li>
       <li>Search</li>
     </ul>
-    <div class="categoryBox">
-      <h3>Category</h3>
-      <ul>
-        <li>개인</li>
-        <li>프로젝트 개발</li>
-        <li>자기계발</li>
-      </ul>
-    </div>
+    <Category />
   </nav>
 </template>
 
 <script>
-export default {};
+import Category from '@/components/category/Category.vue';
+export default {
+  components: {
+    Category,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -55,24 +53,6 @@ nav {
       &:hover {
         background: gray;
         color: white;
-      }
-    }
-  }
-
-  .categoryBox {
-    border-top: 1px solid;
-
-    h3 {
-      font-size: 30px;
-      padding: 10px;
-    }
-
-    ul {
-      li {
-        font-size: 15px;
-        padding: 5px 0;
-        padding-left: 15px;
-        margin-bottom: 5px;
       }
     }
   }

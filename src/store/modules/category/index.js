@@ -1,6 +1,4 @@
-import { faSun, faStar } from '@fortawesome/free-regular-svg-icons';
 import {
-  CATEGORY_FIX_LIST,
   CATEGORY_LIST,
   CATEGORY_SUCCESS,
   CATEGORY_FAILURE,
@@ -8,47 +6,27 @@ import {
   CATEGORY_LIST_READ,
   CATEGORY_ITEM_UPDATE,
   CATEGORY_ITEM_DELETE,
+  CATEGORY_ITEM_TEMP_CREATE,
+  CATEGORY_ITEM_TEMP_DELETE,
 } from './constants.js';
 import * as categoryAPI from '@/api/category.js';
 
 const state = () => ({
-  [CATEGORY_FIX_LIST]: [
-    {
-      id: 'today',
-      content: '오늘 할 일',
-      isFix: true,
-      icon: faSun,
-    },
-    {
-      id: 'importance',
-      content: '중요',
-      isFix: true,
-      icon: faStar,
-    },
-  ],
-  // [CATEGORY_LIST]: [
-  //   {
-  //     id: '',
-  //     content: '',
-  //     isFix: false,
-  //   },
-  // ],
   [CATEGORY_LIST]: null,
   [CATEGORY_SUCCESS]: null,
   [CATEGORY_FAILURE]: null,
 });
 
 const getters = {
-  [CATEGORY_FIX_LIST]: state => state[CATEGORY_FIX_LIST],
   [CATEGORY_LIST]: state => state[CATEGORY_LIST],
   [CATEGORY_SUCCESS]: state => state[CATEGORY_SUCCESS],
   [CATEGORY_FAILURE]: state => state[CATEGORY_FAILURE],
 };
 
 const actions = {
-  async [CATEGORY_ITEM_CREATE]({ commit }, payload) {
+  async [CATEGORY_ITEM_CREATE]({ commit }, { content }) {
     try {
-      const result = await categoryAPI.createCategoryItem(payload);
+      const result = await categoryAPI.createItem({ content });
       commit(CATEGORY_FAILURE, null);
       commit(CATEGORY_SUCCESS, result);
     } catch (e) {
@@ -58,7 +36,7 @@ const actions = {
   },
   async [CATEGORY_LIST_READ]({ commit }) {
     try {
-      const result = await categoryAPI.readCategoryList();
+      const result = await categoryAPI.readList();
       commit(CATEGORY_FAILURE, null);
       commit(CATEGORY_SUCCESS, result);
       commit(CATEGORY_LIST, result);
@@ -69,7 +47,7 @@ const actions = {
   },
   async [CATEGORY_ITEM_UPDATE]({ commit }, { id, content }) {
     try {
-      const result = await categoryAPI.updateCategoryItem({ id, content });
+      const result = await categoryAPI.updateItem({ id, content });
       commit(CATEGORY_FAILURE, null);
       commit(CATEGORY_SUCCESS, result);
     } catch (e) {
@@ -79,13 +57,21 @@ const actions = {
   },
   async [CATEGORY_ITEM_DELETE]({ commit }, { id }) {
     try {
-      const result = await categoryAPI.deleteCategoryItem({ id });
+      const result = await categoryAPI.deleteItem({ id });
       commit(CATEGORY_FAILURE, null);
       commit(CATEGORY_SUCCESS, result);
     } catch (e) {
       commit(CATEGORY_SUCCESS, null);
       commit(CATEGORY_FAILURE, e);
     }
+  },
+  [CATEGORY_ITEM_TEMP_CREATE]({ commit, state }, payload) {
+    const result = [...state[CATEGORY_LIST], payload];
+    commit(CATEGORY_LIST, result);
+  },
+  [CATEGORY_ITEM_TEMP_DELETE]({ commit, state }, { id }) {
+    const result = state[CATEGORY_LIST].filter(ele => ele.id !== id);
+    commit(CATEGORY_LIST, result);
   },
 };
 
